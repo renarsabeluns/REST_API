@@ -2,7 +2,7 @@
 
 class Database {
     //Database parameters
-    private $host = 'loclahost';
+    private $host = 'localhost';
     private $db_name = 'restapi';
     private $username = 'root';
     private $password = '';
