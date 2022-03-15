@@ -1,6 +1,17 @@
 <?php
+//Headers
+header('Access-Control-Allow-Origin:*');
+header('Content-Type: application/json');
 
 include_once('../header.php');
+
+
+// Instantiate database and conenction to it
+
+$database = new Database();
+$db = $database -> connect();
+
+$item = new Item($db);
 
 $result = $item -> read();
 $num = $result->rowCount();

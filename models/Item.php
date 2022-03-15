@@ -1,5 +1,6 @@
 <?php
-
+require '../vendor/autoload.php';
+use Firebase\JWT\JWT;
 class Item {
     //Database properties
     private $conn;
@@ -10,13 +11,33 @@ class Item {
     public $price;
     public $properties;
 
+    private $key = 'privatekey';
+
     public function __construct($db){
         $this -> conn = $db;
+    }
+
+    public function auth(){
+        $iat = time();
+        $exp = $iat + 60 * 60;
+        $payload = array(
+            'iss' => 'http://localhost/restapi/api/', //issuer
+            'aud'=>'http://localhost/', // audience
+            'iat'=>$iat, // Issued at time
+            'exp'=>$exp // Expiry
+        );
+
+        $jwt = JWT::encode($payload, $this ->key,'HS512');
+        return array(
+            'token'=>$jwt,
+            'expires'=>$exp
+        );
     }
 
     // Get items method
 
     public function read(){
+        
         $query = 'SELECT * from '. $this->table;
 
         //Prepare statement
